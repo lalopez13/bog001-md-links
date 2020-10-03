@@ -6,8 +6,6 @@ const validate = require("../controller/options.js");
 const stats = require("../controller/options.js")
 const statsAndValidate = require("../controller/options.js")
 
-//const path = require('path');
-
 // Array Links
 const fileMdLinks =
 [
@@ -27,8 +25,37 @@ const fileMdLinks =
     file: '../mdFiles/test.md'
   }
 ]
-
-
+// Validated Links
+const validateMdLinks =
+[
+  {
+    href: 'https://www.npmjs.com/',
+    text: 'npm',
+    file: '../mdFiles/validate.md',
+    code: 200,
+    status: 'OK'
+  },
+  {
+    href: 'https://user-images.githubusercontent.com/1102/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+    text: 'md-links',
+    file: '../mdFiles/validate.md',
+    code: 403,
+    status: 'Forbidden'
+  },
+  {
+    href: 'https://nodeajs.org/',
+    text: 'Node.js',
+    file: '../mdFiles/validate.md',
+    code: 'ENOTFOUND'
+  },
+  {
+    href: 'https://www.gog.com/error/404',
+    text: '404',
+    file: '../mdFiles/validate.md',
+    code: 404,
+    status: 'Not Found'
+  }
+]
 // test path
 describe('pathExist', () => {
   it('Debería ser una función', () => {
@@ -38,10 +65,9 @@ describe('pathExist', () => {
     expect(fileRoute.pathExist('../README.md')).toBe(true);
   }); 
   it('Debería retornar mensaje con el error si la ruta no existe ', () => {
-    const mockStdout = mockProcess.mockProcessStdout();
-process.stdout.write("The entered route does not exist, try again with a valid route.");
-expect(mockStdout).toHaveBeenCalledWith("The entered route does not exist, try again with a valid route.");
-  
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    fileRoute.pathExist('../noLiks.md');
+    expect(mockExit).toBeCalled();
   }); 
 });
 
@@ -95,12 +121,14 @@ describe('getLinks', () => {
   it('Debería ser una función', () => {
     expect(typeof getLinks.getLinks).toBe('function');
   }); 
-  describe('getLinks', () => {
     it('Debería retornar un objeto con los links del archivo', () => {
       expect(getLinks.getLinks('../mdFiles/test.md')).toStrictEqual(fileMdLinks);
-    }); 
-  
-});
+    });  
+  it('Debería salir si el archivo no tiene links', () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    getLinks.getLinks('../noLinks.md');
+    expect(mockExit).toBeCalled();
+  });  
 })
 
 // Validate the links
@@ -108,6 +136,11 @@ describe('validate', () => {
   it('Debería ser una función', () => {
     expect(typeof validate.validate).toBe('function');
   }); 
+  it('Debería mostrar en consola el resultado de la validación',() => {
+   return validate.validate('../mdFiles/validate.md').then((res)=>{
+     expect(res).toStrictEqual(validateMdLinks)
+   })
+})
 })
 // Stats links
 describe('validate', () => {
@@ -124,5 +157,11 @@ describe('validate', () => {
   it('Debería ser una función', () => {
     expect(typeof statsAndValidate.statsAndValidate).toBe('function');
   }); 
+  it('Debería mostrar en consola el resultado de la validación y stats',() => {
+    return statsAndValidate.statsAndValidate('../mdFiles/validate.md').then((res)=>{
+     expect(res).toStrictEqual({ Total: 4, Unique: 4, Broken: 2, Ok: 1, Error: 1 })
+   })
+})
+  
 })
 
