@@ -10,50 +10,50 @@ const statsAndValidate = require("../controller/options.js")
 const fileMdLinks =
 [
   {
-    href: 'https://www.gog.com/error/404',
-    text: '404',
-    file: '../mdFiles/test.md'
+    href: 'https://www.airbnb.com.co/s/404',
+    text: 'Broken Link',
+    file: './test.md/z.md'
   },
   {
-    href: 'https://github.com/cheeriojs/cheerio',
-    text: 'Cheerio',
-    file: '../mdFiles/test.md'
+    href: 'https://scotch.io/tutorials/javascript-promises-for-dummies#toc-consuming-promises',
+    text: 'Consumo de Promesas.',
+    file: './test.md/z.md'
   },
   {
-    href: 'http://community.laboratoria.la/c/js',
-    text: 'foro de la comunidad',
-    file: '../mdFiles/test.md'
+    href: 'https://www.freecodecamp.org/news/how-to-write-a-javascript-promise-4ed8d44292b8/',
+    text: 'Creación de Promesas.',
+    file: './test.md/z.md'
   }
 ]
 // Validated Links
 const validateMdLinks =
 [
   {
-    href: 'https://www.npmjs.com/',
-    text: 'npm',
-    file: '../mdFiles/validate.md',
+    href: 'https://www.airbnb.com.co/s/404',
+    text: 'Broken Link',
+    file: './test.md/y.md',
+    code: 404,
+    status: 'Not Found'
+  },
+  {
+    href: 'https://scotch.io/tutorials/javascript-promises-for-dummies#toc-consuming-promises',
+    text: 'Consumo de Promesas.',
+    file: './test.md/y.md',
     code: 200,
     status: 'OK'
   },
   {
-    href: 'https://user-images.githubusercontent.com/1102/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+    href: 'https://www.freecodecamp.org/news/how-to-write-a-javascript-promise-4ed8d44292b8/',
+    text: 'Creación de Promesas.',
+    file: './test.md/y.md',
+    code: 200,
+    status: 'OK'
+  },
+  {
+    href: 'htt://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96a9cc5593715a6.jpg',
     text: 'md-links',
-    file: '../mdFiles/validate.md',
-    code: 403,
-    status: 'Forbidden'
-  },
-  {
-    href: 'https://nodeajs.org/',
-    text: 'Node.js',
-    file: '../mdFiles/validate.md',
-    code: 'ENOTFOUND'
-  },
-  {
-    href: 'https://www.gog.com/error/404',
-    text: '404',
-    file: '../mdFiles/validate.md',
-    code: 404,
-    status: 'Not Found'
+    file: './test.md/y.md',
+    code: undefined
   }
 ]
 // test path
@@ -65,9 +65,10 @@ describe('pathExist', () => {
     expect(fileRoute.pathExist('../README.md')).toBe(true);
   }); 
   it('Debería retornar mensaje con el error si la ruta no existe ', () => {
-    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    const mockStdout = mockProcess.mockProcessStdout();
+    process.stdout.write('The entered route does not exist, try again with a valid route.');
     fileRoute.pathExist('../noLiks.md');
-    expect(mockExit).toBeCalled();
+    expect(mockStdout).toHaveBeenCalledWith('The entered route does not exist, try again with a valid route.');
   }); 
 });
 
@@ -109,10 +110,10 @@ describe('readFile', () => {
     expect(typeof readFileOrDir).toBe('function');
   });
   it('Debería retornar un array con el archivo si es una fila', () => {
-    expect(readFileOrDir('../README.md')).toHaveLength(1);;
+    expect(readFileOrDir('./test.md/x.md')).toHaveLength(1);;
   }); 
   it('Debería retornar un array con los archivos si es un directorio', () => {
-    expect(readFileOrDir('../mdFiles')).toHaveLength(6);
+    expect(readFileOrDir('./test.md')).toHaveLength(4);
   }); 
 });
 
@@ -122,12 +123,14 @@ describe('getLinks', () => {
     expect(typeof getLinks.getLinks).toBe('function');
   }); 
     it('Debería retornar un objeto con los links del archivo', () => {
-      expect(getLinks.getLinks('../mdFiles/test.md')).toStrictEqual(fileMdLinks);
+      expect(getLinks.getLinks('./test.md/z.md')).toStrictEqual(fileMdLinks);
     });  
   it('Debería salir si el archivo no tiene links', () => {
-    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
-    getLinks.getLinks('../noLinks.md');
-    expect(mockExit).toBeCalled();
+    // const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    const mockStdout = mockProcess.mockProcessStdout();
+    process.stdout.write('There are no links in this file');
+    getLinks.getLinks('./test.md/noLinks.md');
+    expect(mockStdout).toHaveBeenCalledWith('There are no links in this file');
   });  
 })
 
@@ -137,7 +140,7 @@ describe('validate', () => {
     expect(typeof validate.validate).toBe('function');
   }); 
   it('Debería mostrar en consola el resultado de la validación',() => {
-   return validate.validate('../mdFiles/validate.md').then((res)=>{
+   return validate.validate('./test.md/y.md').then((res)=>{
      expect(res).toStrictEqual(validateMdLinks)
    })
 })
@@ -148,7 +151,7 @@ describe('validate', () => {
     expect(typeof stats.stats).toBe('function');
   }); 
   it('Debería retornar un objeto con las estadisticas', () => {
-    expect(stats.stats('../mdFiles/test.md')).toStrictEqual({ Total: 3, Unique: 3 });
+    expect(stats.stats('./test.md/z.md')).toStrictEqual({ Total: 3, Unique: 3 });
   }); 
 })
 
@@ -158,8 +161,8 @@ describe('validate', () => {
     expect(typeof statsAndValidate.statsAndValidate).toBe('function');
   }); 
   it('Debería mostrar en consola el resultado de la validación y stats',() => {
-    return statsAndValidate.statsAndValidate('../mdFiles/validate.md').then((res)=>{
-     expect(res).toStrictEqual({ Total: 4, Unique: 4, Broken: 2, Ok: 1, Error: 1 })
+    return statsAndValidate.statsAndValidate('./test.md/y.md').then((res)=>{
+     expect(res).toStrictEqual({ Total: 4, Unique: 4, Broken: 1, Ok: 2, Error: 1 })
    })
 })
   
