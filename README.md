@@ -12,6 +12,12 @@ Recibe como argumento un archivo con extensión .md o una directorio que conteng
 
 <img width="500"  src="https://raw.githubusercontent.com/lalopez13/bog001-md-links/feature/path/img/mdLinks--install.png">
 
+La instalación puede ser de manera global 
+````
+$ nmp install -g @lalopez13/md-links
+````
+
+
 ## Ejemplo 
 
 La aplicación debe poder ejecutarse de la siguiente manera a través de la terminal:
@@ -50,7 +56,10 @@ Para obtener estadísticas que necesiten de los resultados de la validación.
 Para obtener ayuda sobre las diferentes opciones.
 
 
-## Uso como modulo
+## Uso como módulo
 
+````
+$ nmp install @lalopez13/md-links
+````
 <img  width="600"  src="https://raw.githubusercontent.com/lalopez13/bog001-md-links/feature/path/img/mdLinks%20--require.png">
 
