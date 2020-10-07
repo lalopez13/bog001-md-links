@@ -85,3 +85,18 @@
 * [x] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
   lines, y branches.
 * [ ] Pasa tests (y linters) (`npm test`).
+
+--------------|---------|----------|---------|---------|-------------------
+File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+--------------|---------|----------|---------|---------|-------------------
+All files     |   97.85 |       75 |     100 |   97.75 |                  
+ getLinks.js  |     100 |      100 |     100 |     100 |                  
+ options.js   |     100 |      100 |     100 |     100 |                  
+ path.js      |   95.24 |    66.67 |     100 |   94.74 | 34               
+ readFiles.js |   93.75 |       70 |     100 |   93.75 | 19               
+--------------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        13.645 s
+Ran all test suites.

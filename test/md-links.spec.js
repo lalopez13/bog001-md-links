@@ -69,7 +69,7 @@ describe('pathExist', () => {
     process.stdout.write('The entered route does not exist, try again with a valid route.');
     fileRoute.pathExist('../noLiks.md');
     expect(mockStdout).toHaveBeenCalledWith('The entered route does not exist, try again with a valid route.');
-  }); 
+  });  
 });
 
 describe('isAbsolutePath', () => {
@@ -110,7 +110,7 @@ describe('readFile', () => {
     expect(typeof readFileOrDir).toBe('function');
   });
   it('Debería retornar un array con el archivo si es una fila', () => {
-    expect(readFileOrDir('./test.md/x.md')).toHaveLength(1);;
+    expect(readFileOrDir('./test.md/x.md')).toHaveLength(1);
   }); 
   it('Debería retornar un array con los archivos si es un directorio', () => {
     expect(readFileOrDir('./test.md')).toHaveLength(4);
@@ -132,6 +132,7 @@ describe('getLinks', () => {
     getLinks.getLinks('./test.md/noLinks.md');
     expect(mockStdout).toHaveBeenCalledWith('There are no links in this file');
   });  
+  
 })
 
 // Validate the links
@@ -167,4 +168,3 @@ describe('validate', () => {
 })
   
 })
-
