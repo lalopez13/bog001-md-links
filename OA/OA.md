@@ -19,7 +19,7 @@
 
 * [x] Uso de sistema de archivos. ([fs](https://nodejs.org/api/fs.html), [path](https://nodejs.org/api/path.html))
 * [x] Instalar y usar módulos. ([npm](https://www.npmjs.com/))
-* [ ] Creación de modules. [(CommonJS)](https://nodejs.org/docs/latest-v0.10.x/api/modules.html)
+* [x] Creación de modules. [(CommonJS)](https://nodejs.org/docs/latest-v0.10.x/api/modules.html)
 * [x] [Configuración de package.json.](https://docs.npmjs.com/files/package.json)
 * [ ] [Configuración de npm-scripts](https://docs.npmjs.com/misc/scripts)
 * [x] Uso de CLI (Command Line Interface - Interfaz de Línea de Comando)
@@ -68,14 +68,14 @@
 
 ### API `mdLinks(path, opts)`
 
-* [ ] El módulo exporta una función con la interfaz (API) esperada.
+* [x] El módulo exporta una función con la interfaz (API) esperada.
 * [x] Implementa soporte para archivo individual
 * [x] Implementa soporte para directorios
 * [x] Implementa `options.validate`
 
 ### CLI
 
-* [ ] Expone ejecutable `md-links` en el path (configurado en `package.json`)
+* [x] Expone ejecutable `md-links` en el path (configurado en `package.json`)
 * [x] Se ejecuta sin errores / output esperado
 * [x] Implementa `--validate`
 * [x] Implementa `--stats`
@@ -84,7 +84,7 @@
 
 * [x] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
   lines, y branches.
-* [ ] Pasa tests (y linters) (`npm test`).
+* [] Pasa tests (y linters) (`npm test`).
 
 --------------|---------|----------|---------|---------|-------------------
 File          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
